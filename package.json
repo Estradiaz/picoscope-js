@@ -1,0 +1,30 @@
+{
+  "name": "picoscope-js",
+  "version": "0.0.1",
+  "description": "picoscope js brigde",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "pretest": "node-gyp rebuild",
+    "test": "jest --watchAll --runInBand",
+    "build": "node-gyp build",
+    "clean": "node-gyp clean && node-gyp configure",
+    "demo": "node sample.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "gypfile": true,
+  "dependencies": {
+    "nan": "^2.14.0",
+    "node-addon-api": "^2.0.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/node": "^12.7.5",
+    "bindings": "^1.5.0",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.1.0",
+    "typescript": "^3.6.3"
+  }
+}

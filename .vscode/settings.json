@@ -1,0 +1,29 @@
+{
+    "files.associations": {
+        "*.cc": "cpp",
+        "type_traits": "cpp",
+        "xstddef": "cpp",
+        "functional": "cpp",
+        "exception": "cpp",
+        "ios": "cpp",
+        "system_error": "cpp",
+        "tuple": "cpp",
+        "utility": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "thread": "cpp",
+        "deque": "cpp",
+        "istream": "cpp",
+        "list": "cpp",
+        "memory": "cpp",
+        "mutex": "cpp",
+        "ostream": "cpp",
+        "streambuf": "cpp",
+        "unordered_map": "cpp",
+        "vector": "cpp",
+        "xhash": "cpp",
+        "xlocinfo": "cpp",
+        "xstring": "cpp",
+        "xutility": "cpp"
+    }
+}
