@@ -1,7 +1,12 @@
-const {PS} = require ("bindings")("picoscope-js")
+const {PicoScope} = require ("bindings")("picoscope-js")
 
+const PS = PicoScope
 export default class PicoScopeJS extends PS{
-    connect(){
+    connect(callback?: Function){
+        if(callback){
+
+            return super.connect(callback)
+        }
         return super.connect()
     }
     setChannel(channel: 0 | 1, enabled: 0 | 1, coupling: 0 | 1, range: number): number {
@@ -26,21 +31,32 @@ export default class PicoScopeJS extends PS{
             cb(arguments[0])
         })
     }
+    stop(){
+        return super.stop();
+    }
     disconnect(){
         return super.disconnect();
     }
     get templateIndex(){
         return super.templateIndex()
     }
+    get channelA(){
+
+        return super.getChannel(0)
+    }
+    get channelB(){
+
+        return super.getChannel(1)
+    }
 }
 
-const ps = new PicoScopeJS()
-ps.connect()
-ps.setChannelA(true, true, 1)
-ps.setTrigger(0,1,0,0,1)
-ps.stream(function(){
-    console.log("1",arguments)
-})
-ps.stream(function(){
-    console.log("2", arguments)
-})
+// const ps = new PicoScopeJS()
+// ps.connect()
+// ps.setChannelA(true, true, 1)
+// ps.setTrigger(0,1,0,0,1)
+// ps.stream(function(){
+//     console.log("1",arguments)
+// })
+// ps.stream(function(){
+//     console.log("2", arguments)
+// })

@@ -6,7 +6,9 @@
       "cflags_cc!": [ "-fno-exceptions" ],
       "sources": [ 
         "src/index.cc" ,
-        "src/PicoScope/ps_wrap.cc"
+        "src/PicoScope/PicoScope.cc",
+        "src/PicoScope/ConnectWorker/ConnectWorker.cc",
+        "src/PicoScope/StreamWorker/StreamWorker.cc",
       ],
       "include_dirs": [
         "<!@(node -p \"require('node-addon-api').include\")",
