@@ -49,14 +49,3 @@ export default class PicoScopeJS extends PS{
         return super.getChannel(1)
     }
 }
-
-// const ps = new PicoScopeJS()
-// ps.connect()
-// ps.setChannelA(true, true, 1)
-// ps.setTrigger(0,1,0,0,1)
-// ps.stream(function(){
-//     console.log("1",arguments)
-// })
-// ps.stream(function(){
-//     console.log("2", arguments)
-// })
