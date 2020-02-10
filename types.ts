@@ -1,4 +1,5 @@
 import { EventEmitter } from "events";
+import { Stream } from "stream";
 
 export type Channel = {
     name: string;
@@ -7,7 +8,7 @@ export type Channel = {
     range: number;
     enabled: number;
 }
-export interface PicoScope extends EventEmitter{
+export interface PicoScope {
     
     new (): PicoScope;
     // connect(): number

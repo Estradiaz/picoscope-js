@@ -1,9 +1,30 @@
 import { Channel, PicoScope } from "types";
+import { EventEmitter } from "events";
 const { PicoScope } = require ("bindings")("picoscope-js") as { "PicoScope": PicoScope }
 
 
-export default class PicoScopeJS extends PicoScope{
+export default class PicoScopeJS extends PicoScope {
     
+    _emitter: EventEmitter = new EventEmitter();
+    emit(event: string | symbol, ...args: any[]){
+
+        return this._emitter.emit(event, ...args)
+    }
+    on(event: string | symbol, listener: (...args: any[]) => void){
+        this._emitter.on(event, listener)
+        return this
+    }
+    once(event: string | symbol, listener: (...args: any[]) => void){
+        this._emitter.once(event, listener)
+        return this
+    }
+    off(event: string | symbol, listener: (...args: any[]) => void){
+        this._emitter.off(event, listener)
+        return this
+    }
+    get eventNames(){
+        return this._emitter.eventNames()
+    }
     promise = {
         connect(): Promise<number> {
             
