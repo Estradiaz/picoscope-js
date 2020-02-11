@@ -25,25 +25,38 @@ export default class PicoScopeJS extends PicoScope {
     get eventNames(){
         return this._emitter.eventNames()
     }
-    promise = {
-        connect(): Promise<number> {
-            
-            return new Promise((res, rej) => {
+    promise: {[key:string]: (...args: any[])=>Promise<any>} = {}
+    constructor(){
 
-                super.connect((payload: {deviceHandle: number, progressPercent: number}) => {
-
-                    if(payload.progressPercent === 100){
-                        res(payload.deviceHandle)
-                    }                        
+        super();
+        Object.defineProperty(this.promise, "connect", {
+            "get": () => function(): Promise<number> {
+                
+                return new Promise((res, rej) => {
+   
+                    //@ts-ignore
+                    this.connect((payload: {deviceHandle: number, progressPercent: number}) => {
+    
+                        if(payload.progressPercent === 100){
+                            res(payload.deviceHandle)
+                        }                        
+                    })
                 })
-            })
-        }
+            }
+        })
     }
 
-    connect(callback?: Function){
-        if(callback){
+    connect(callback?: Function): void{
+        if(callback !== undefined){
 
+            return super.connect((...args: any[]) => {
+                if(args[0])
+                callback(...args)
+            }) as void
+        } else {
+            
             return super.connect((payload: {deviceHandle: number, progressPercent: number}) => {
+                
                 
                 if(payload.progressPercent <= 100){
 
@@ -53,15 +66,12 @@ export default class PicoScopeJS extends PicoScope {
                     this.emit("connected", payload.deviceHandle)
                 }
                 // this.emit("connected", args)
-            }) 
-        } else {
-
-            return super.connect()
+            }) as void
         }
         
     }
-    connectSync(){
-        
+    connectSync(): number{
+        return super.connect() as number
     }
     setChannel(channel: 0 | 1, enabled: 0 | 1, coupling: 0 | 1, range: number): number {
 
@@ -79,11 +89,16 @@ export default class PicoScopeJS extends PicoScope {
     setTriggerOff(){
         return super.setTrigger(5, 0,0,0,1);
     }
-    stream(){
+    stream(callback?: Function){
+        if(callback){
 
-        return super.stream((...args: any[]) => {
-            this.emit("data", args)
-        })
+            return super.stream(callback);
+        } else {
+
+            return super.stream((...args: any[]) => {
+                this.emit("data", args)
+            })
+        }
     }
     stop(){
         return super.stop();

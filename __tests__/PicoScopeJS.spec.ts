@@ -10,27 +10,53 @@ describe("Picoscope napi implementation", function(){
 
         expect(typeof (ps)).toBe("object")
     })
-    // it("should have a template index", function(){
-
-    //     expect(ps.templateIndex).toBeGreaterThanOrEqual(0);
-    // })
-
-
 
     describe("PS2000er connected", function(){
+
 
         afterAll(function(){
             // ps.disconnect()
         })
+        describe("connection sets", function(){
+
+            it("should connect blocking", function(){
+
+                let deviceHandle = ps.connectSync() as number
+                expect(deviceHandle).toBeGreaterThan(0);
+                ps.disconnect()
+            })
+            it("should connect async passing a callback", function(done){
+
+                let deviceHandle = ps.connect((...args: any[]) => {
+
+                    console.log(args[0])
+                    if(args[0].progressPercent === 100){
+                        expect(args[0].deviceHandle).toBeGreaterThan(0)
+                        ps.disconnect()
+                        done()
+                    }
+                })
+            })
+            it("should connect emitting connected event", function(done){
+
+                ps.once("connected", ()=> {
+                    ps.disconnect()
+                    done()
+                })
+                ps.connect()
+
+            })
+            // it("should connect returning an promise<number>", async function(){
+
+            //     let deviceHandle = await ps.promise.connect()
+            //     expect(deviceHandle).toBeGreaterThan(0)
+            //     ps.disconnect()
+            // })
+        })
 
         it("should connect to device", function(done){
 
-            // expect((ps.connect())).toBeGreaterThan(0);
-            ps.connect((...args: any[])=>{
-                if(args[0] && args[0].deviceHandle > 0){
-                    done()
-                }
-            })
+            expect((ps.connectSync())).toBeGreaterThan(0);
         })
         
         
